@@ -64,22 +64,26 @@ fun OrderScreenContent(state: OrderUiState, event: (OrderEVent) -> Unit) {
                 Text("Place Order")
             }
 
-            if (state.packagesList.isNotEmpty()) {
-                Text("Packages:", style = MaterialTheme.typography.titleMedium)
-                state.packagesList.forEachIndexed { index, pkg ->
-                    Text("Package ${index + 1}:")
-                    Text("- Items: ${pkg}")
-//                Text("- Total Price: $${pkg.totalPrice}")
-//                Text("- Total Weight: ${pkg.totalWeight}g")
-//                Text("- Courier: $${pkg.courierPrice}")
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-            }
+            PackageListContainer(state)
         }
     }
 
 }
 
+@Composable
+private fun PackageListContainer(state: OrderUiState) {
+    if (state.packagesList.isNotEmpty()) {
+        Text("Packages:", style = MaterialTheme.typography.titleMedium)
+        state.packagesList.forEachIndexed { index, pkg ->
+            Text("Package ${index + 1}:")
+            Text("- Items: ${pkg}")
+//                Text("- Total Price: $${pkg.totalPrice}")
+//                Text("- Total Weight: ${pkg.totalWeight}g")
+//                Text("- Courier: $${pkg.courierPrice}")
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+    }
+}
 
 
 @Preview(showBackground = true)
