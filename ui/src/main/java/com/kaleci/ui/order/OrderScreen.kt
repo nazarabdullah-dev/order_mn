@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.kaleci.ui.component.ItemRow
 import com.kaleci.ui.theme.Order_appTheme
 
 @Composable
@@ -46,7 +47,9 @@ fun OrderScreenContent(state: OrderUiState, event: (OrderEVent) -> Unit) {
                 items(
                     state.items.size,
                 ) { item ->
-                    ItemRow(item = item, onCheckedChange = {
+                    ItemRow(item = item,
+                        modifier = Modifier.fillMaxWidth().padding(10.dp),
+                        onCheckedChange = {
                         event(OrderEVent.OnOrderUpdated(state.items[item]))
                     })
                 }
@@ -56,7 +59,7 @@ fun OrderScreenContent(state: OrderUiState, event: (OrderEVent) -> Unit) {
                 onClick = { event(OrderEVent.OnOrderPlaced) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 12.dp)
+                    .padding( 12.dp)
             ) {
                 Text("Place Order")
             }
@@ -77,14 +80,6 @@ fun OrderScreenContent(state: OrderUiState, event: (OrderEVent) -> Unit) {
 
 }
 
-@Composable
-fun ItemRow(item: Int, onCheckedChange: () -> Unit) {
-    // Implement the UI for each item row
-    Text(text = "Item $item", modifier = Modifier.padding(8.dp))
-    Button(onClick = onCheckedChange) {
-        Text("Select")
-    }
-}
 
 
 @Preview(showBackground = true)
