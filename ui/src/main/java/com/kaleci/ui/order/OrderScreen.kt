@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -28,49 +29,52 @@ fun OrderScreen(viewModel: OrderViewModel = hiltViewModel()) {
 
 @Composable
 fun OrderScreenContent(state: OrderUiState, event: (OrderEVent) -> Unit) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-
-        Text("Select Items", style = MaterialTheme.typography.titleLarge)
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        LazyColumn(
-            modifier = Modifier.weight(1f)
-        ) {
-            items(
-                state.items.size,
-            ) { item ->
-                ItemRow(item = item, onCheckedChange = {
-                    event(OrderEVent.OnOrderUpdated(state.items[item]))
-                })
-            }
-        }
-
-        Button(
-            onClick = { event(OrderEVent.OnOrderPlaced) },
+    Scaffold {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 12.dp)
+                .fillMaxSize()
+                .padding(it)
         ) {
-            Text("Place Order")
-        }
 
-        if (state.packagesList.isNotEmpty()) {
-            Text("Packages:", style = MaterialTheme.typography.titleMedium)
-            state.packagesList.forEachIndexed { index, pkg ->
-                Text("Package ${index + 1}:")
-                Text("- Items: ${pkg}")
+            Text("Select Items", style = MaterialTheme.typography.titleLarge)
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            LazyColumn(
+                modifier = Modifier.weight(1f)
+            ) {
+                items(
+                    state.items.size,
+                ) { item ->
+                    ItemRow(item = item, onCheckedChange = {
+                        event(OrderEVent.OnOrderUpdated(state.items[item]))
+                    })
+                }
+            }
+
+            Button(
+                onClick = { event(OrderEVent.OnOrderPlaced) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 12.dp)
+            ) {
+                Text("Place Order")
+            }
+
+            if (state.packagesList.isNotEmpty()) {
+                Text("Packages:", style = MaterialTheme.typography.titleMedium)
+                state.packagesList.forEachIndexed { index, pkg ->
+                    Text("Package ${index + 1}:")
+                    Text("- Items: ${pkg}")
 //                Text("- Total Price: $${pkg.totalPrice}")
 //                Text("- Total Weight: ${pkg.totalWeight}g")
 //                Text("- Courier: $${pkg.courierPrice}")
-                Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
             }
         }
     }
+
 }
 
 @Composable
