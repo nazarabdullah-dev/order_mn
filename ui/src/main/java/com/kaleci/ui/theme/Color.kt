@@ -1,4 +1,4 @@
-package com.kaleci.order_app.ui.theme
+package com.kaleci.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
