@@ -25,6 +25,6 @@ Open Android Studio and select "Open an existing Android Studio project". Naviga
 ### 3. Sync Gradle
 Once the project is open, Android Studio will prompt you to sync Gradle. Click "Sync Now" to download the necessary dependencies.
 ### 4. Build the Project
-Build the project by selecting "Build" > "Rebuild Project" from the menu. This will compile the code and ensure everything is set up correctly.
+Build the project by selecting "Build" > "Rebuild Project/Assemble project" from the menu. This will compile the code and ensure everything is set up correctly.
 ### 5. Run the Application
 Connect your Android device or start an emulator. Click the "Run" button in Android Studio to install and run the application on your device/emulator.
