@@ -1,9 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
-    id("com.google.devtools.ksp")
+    kotlin("kapt")
 }
 
 android {
@@ -36,6 +35,13 @@ android {
     hilt {
         enableAggregatingTask = false
     }
+
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
+    }
 }
 
 dependencies {
@@ -59,7 +65,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.google.dagger.hilt)
-    ksp(libs.google.dagger.hilt.compiler)
+    kapt(libs.google.dagger.hilt.compiler)
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(project(":domain"))
 
 }

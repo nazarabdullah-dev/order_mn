@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
-    id("com.google.devtools.ksp")
+    kotlin("kapt")
 }
 
 android {
@@ -32,7 +32,12 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    hilt {
+        enableAggregatingTask = false
+    }
+
 }
+
 
 dependencies {
 
@@ -41,7 +46,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.google.dagger.hilt)
-    ksp(libs.google.dagger.hilt.compiler)
+    kapt(libs.google.dagger.hilt.compiler)
 
 
 }
