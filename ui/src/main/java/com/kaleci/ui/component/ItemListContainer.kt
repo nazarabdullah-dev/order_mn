@@ -1,17 +1,12 @@
 package com.kaleci.ui.component
 
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
-import androidx.compose.animation.with
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,99 +30,89 @@ import com.kaleci.ui.util.shimmerBrush
 @Composable
 fun ItemListContainer(
     state: ItemsListState,
+    modifier: Modifier = Modifier,
     event: (OrderEVent) -> Unit
 ) {
-    Column (
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(10.dp),
-    ) {
 
-        AnimatedContent(
-            targetState = state.isLoading && state.items.isEmpty(),
-            label = "ItemListContainer",
-            transitionSpec = {
-                fadeIn() togetherWith
-                        fadeOut()
-            }
-        ) {isLoading ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background)
-            ) {
-                when {
-                     isLoading -> {
-                        LazyVerticalGrid(
-                            columns = GridCells.Adaptive(150.dp),
-                        ) {
-                            items(4) {
-                                Card(
+    AnimatedContent(
+        targetState = state.isLoading && state.items.isEmpty(),
+        label = "ItemListContainer",
+        transitionSpec = {
+            fadeIn() togetherWith
+                    fadeOut()
+        }
+    ) { isLoading ->
+
+            when {
+                isLoading -> {
+                    LazyVerticalGrid(
+                        modifier = modifier,
+                        columns = GridCells.Adaptive(150.dp),
+                    ) {
+                        items(4) {
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(10.dp)
+                            ) {
+                                Box(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(10.dp)
-                                ) {
-                                    Box(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(130.dp)
-                                            .background(brush = shimmerBrush())
-                                    ) { }
-                                }
+                                        .height(130.dp)
+                                        .background(brush = shimmerBrush())
+                                ) { }
                             }
                         }
                     }
+                }
 
-                    !isLoading && state.items.isEmpty() -> {
+                !isLoading && state.items.isEmpty() -> {
+                    Box(
+                        modifier = modifier
+                            .fillMaxSize()
+                            .padding(10.dp)
+                            .background(MaterialTheme.colorScheme.surface)
+                            .padding(16.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
                         Text(
                             text = "No items available.",
                             style = MaterialTheme.typography.bodyLarge,
                             modifier = Modifier.Companion.align(Alignment.Center)
                         )
                     }
+                }
 
-                    else -> {
-                        Column(
-                            modifier = Modifier
-                                .padding(top = 10.dp)
-                                .fillMaxSize()
-                                .background(MaterialTheme.colorScheme.background)
-                                .padding(10.dp)
-                        ) {
+                else -> {
 
-
-                            LazyVerticalGrid(
-                                columns = GridCells.Adaptive(150.dp),
-                                modifier = Modifier.weight(1f)
-                            ) {
-                                items(state.items.size, key = {
-                                    state.items[it].name
-                                }, span = {
-                                    GridItemSpan(1)
-                                }) { index ->
-                                    ItemRow(
-                                        item = state.items[index],
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(10.dp),
-                                        onCheckedChange = {
-                                            event(OrderEVent.OnOrderUpdated(state.items[index]))
-                                        }
-                                    )
+                    LazyVerticalGrid(
+                        modifier = modifier,
+                        columns = GridCells.Adaptive(150.dp),
+                    ) {
+                        items(state.items.size, key = {
+                            state.items[it].name
+                        }, span = {
+                            GridItemSpan(1)
+                        }) { index ->
+                            ItemRow(
+                                item = state.items[index],
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(10.dp),
+                                onCheckedChange = {
+                                    event(OrderEVent.OnOrderUpdated(state.items[index]))
                                 }
+                            )
+                        }
 
-                                item(span = {
-                                    GridItemSpan(2)
-                                }) {
-                                    Spacer(modifier = Modifier.height(100.dp))
-                                }
-                            }
+                        item(span = {
+                            GridItemSpan(2)
+                        }) {
+                            Spacer(modifier = Modifier.height(100.dp))
                         }
                     }
                 }
             }
         }
-
-    }
 
 }

@@ -68,22 +68,26 @@ fun OrderScreenContent(
                 },
 
                 )
-        }
+        },
+
+
+
     ) {
         Box(
-            Modifier
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
         ) {
-            ItemListContainer(itemsListState, event)
-
+            ItemListContainer(itemsListState,modifier = Modifier, event)
             FooterContainer(
+
                 itemsListState = itemsListState,
                 coroutineScope, bottomSheetState, modifier = Modifier.align(
                     Alignment.BottomCenter
                 ), event
-            )
+            )  // Main content
         }
+
     }
     BottomSheetPackageContainer(bottomSheetState, packageListState)
 
